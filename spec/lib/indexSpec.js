@@ -12,4 +12,9 @@ describe("recumbent", function () {
     expect(typeof recumbent.Server).toEqual('function');
   });
 
+  it('has a Writer constructor', function () {
+    expect(recumbent.Writer).toBeDefined();
+    expect(typeof recumbent.Writer).toEqual('function');
+  });
+
 });
