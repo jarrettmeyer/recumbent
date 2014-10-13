@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Couch DB client for NodeJS",
   "dependencies": {
-
   },
   "devDependencies": {
     "jshint": "~2.5.6",
@@ -13,8 +12,19 @@
     "lint": "./node_modules/jshint/bin/jshint ./lib/**/*.js ./spec/**/*.js ./package.json",
     "test": "jasmine-node --color ."
   },
+  "author": {
+    "name": "Jarrett Meyer",
+    "email": "jarrettmeyer@gmail.com"
+  },
+  "keywords": [
+    "couch",
+    "couchdb"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:jarrettmeyer/recumbent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jarrettmeyer/recumbent/issues"
   }
 }
