@@ -63,7 +63,8 @@ writer.data(obj).exec(function (error, result) {
 ### Updating a document
 
 Updating a document is identical to inserting a document. The only difference is that
-updated documents must have `_rev` attribute.
+updated documents must have `_rev` attribute. Use the `data()` function to set the
+data to be sent to the server.
 
 ``` javascript
 var writer = new recumbent.Writer({ server: server });
@@ -80,3 +81,26 @@ writer.data(obj).exec(function (error, result) {
   console.log("   Revision: " + result.rev);
 });
 ```
+
+### Querying for a document by ID
+
+To query for documents, create a new instance of the `Query` object. Use the `id()`
+function to set the ID to fetch.
+
+``` javascript
+var query = new recumbent.Query({ server: server });
+query.id('04bb33dc698297b4806062feae00cb93').exec(function (error, result) {
+  if (error) {
+    throw error;
+  }
+  console.log("      ID: " + result._id);
+  console.log("Revision: " + result._rev);
+});
+```
+
+## Features Coming "Soon"
+
++ Create design document
++ Add view(s) to design document
++ Query by view (with key, startkey, endkey, skip, and limit options)
++ Add filter(s) to design document
