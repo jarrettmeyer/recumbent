@@ -33,6 +33,30 @@ describe('Writer', function () {
 
   describe('insert', function () {
 
+    it('can insert a new design document', function (done) {
+      var doc = {
+        _id: '_design/insert_design_test',
+        description: 'this is a test',
+        views: {
+          all_ids: {
+            map: function (doc) {
+              emit(doc._id, null);
+            }.toString()
+          }
+        }
+      };
+      writer.data(doc).exec(function (error, result) {
+        if (error) {
+          console.error(error);
+          done(error);
+        } else {
+          expect(result.id).toEqual('_design/insert_design_test');
+          expect(result.rev).toMatch(/^1\-/);
+          done();
+        }
+      });
+    });
+
     it('can insert a new record', function (done) {
       writer.data(doc).exec(function (error, result) {
         if (error) {
