@@ -9,7 +9,7 @@ describe('Server', function () {
     server.getInfo(function (error, result) {
       expect(result.couchdb).toEqual('Welcome');
       done(error);
-    })
+    });
   });
 
   it('has a database property', function () {

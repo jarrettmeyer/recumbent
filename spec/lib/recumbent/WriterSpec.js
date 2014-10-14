@@ -24,7 +24,7 @@ describe('Writer', function () {
   afterEach(function (done) {
     database.destroy(function (error, result) {
       if (error) {
-        done(error)
+        done(error);
       } else {
         done();
       }

@@ -47,12 +47,12 @@ describe('Database', function () {
         }
         expect(result.db_name).toEqual('recumbent_test');
         done();
-      })
+      });
     });
-  })
+  });
 
   it('has a name attribute', function () {
     expect(database.name).toEqual('recumbent_test');
-  })
+  });
 
 });
