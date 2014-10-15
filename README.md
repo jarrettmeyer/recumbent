@@ -98,9 +98,50 @@ query.id('04bb33dc698297b4806062feae00cb93').exec(function (error, result) {
 });
 ```
 
+### Creating a design document
+
+Design documents are not different from any other type of document in Couch. Therefore,
+creating design documents is the same as creating any other document.
+
+``` javascript
+var designDocument = {
+  _id: '_design/employees',
+  description: 'All views and filters related to employee data.'
+  views: {
+    all: function (doc) {
+      if (doc.type === 'employee') {
+        emit(doc._id, doc);
+      }
+    }.toString()
+  }
+};
+var writer = new recumbent.Writer(options);
+writer.data(designDocument).exec(function (error, result) {
+  console.log("      OK: ", result.ok);
+  console.log("Revision: ", result.rev);
+});
+```
+
+Once created, you may query a view with `key`, `startkey`, `endkey`, `skip`, and
+`limit` options.
+
+``` javascript
+var query = new recumbent.Query(options);
+
+// query a view
+query.designDocument('employees').view('all').exec(callback);
+
+// query a view by key
+query.designDocument('employees').view('all').key('123-45-6789').exec(callback);
+
+// query a view by startkey and endkey
+query.designDocument('employees').view('all').startkey('200-00-0000').endkey('299-99-9999').exec(callback);
+
+// query a view by skip and limit
+query.designDocument('employees').view('all').skip(100).limit(20).exec(callback);
+```
+
 ## Features Coming "Soon"
 
-+ Create design document
-+ Add view(s) to design document
-+ Query by view (with key, startkey, endkey, skip, and limit options)
-+ Add filter(s) to design document
++ Add filter(s) to design document.
++ Query by filter(s).
