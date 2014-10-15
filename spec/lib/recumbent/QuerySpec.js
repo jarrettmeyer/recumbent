@@ -75,6 +75,43 @@ describe('Query', function () {
 
   });
 
+  describe('Get documents by startkey and endkey', function () {
+
+    beforeEach(function (done) {
+      doneFunc = done;
+      docCount = 11;
+      writeCount = 0;
+      createDatabase(function (error, result) {
+        for (var i = 0; i < 10; i += 1) {
+          insertDocument({ value: i }, onWrite);
+        }
+        insertDocument(getView(), onWrite);
+      });
+    });
+
+    afterEach(function (done) {
+      destroyDatabase(function (error, result) {
+        done();
+      });
+    });
+
+    it('can get documents from a view by its startkey and endkey', function (done) {
+      var query = new Query(options);
+      query.designDocument('all_docs').view('all_values').startkey(3).endkey(6).exec(function (error, result) {
+        if (error) {
+          console.error(error);
+          done(error);
+        }
+        expect(result.total_rows).toEqual(10);
+        expect(result.rows.length).toEqual(4);
+        expect(result.rows[0].key).toEqual(3);
+        expect(result.rows[3].key).toEqual(6);
+        done();
+      });
+    });
+
+  });
+
   describe('Get documents by view', function () {
 
     beforeEach(function (done) {
