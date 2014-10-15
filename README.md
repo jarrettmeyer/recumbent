@@ -113,7 +113,8 @@ var designDocument = {
         emit(doc._id, doc);
       }
     }.toString()
-  }
+  },
+  language: 'javascript'
 };
 var writer = new recumbent.Writer(options);
 writer.data(designDocument).exec(function (error, result) {
@@ -145,3 +146,4 @@ query.designDocument('employees').view('all').skip(100).limit(20).exec(callback)
 
 + Add filter(s) to design document.
 + Query by filter(s).
++ Add attachments to documents.
