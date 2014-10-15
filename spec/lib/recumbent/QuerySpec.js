@@ -59,7 +59,7 @@ describe('Query', function () {
       });
     });
 
-    it('can get documents by view', function (done) {
+    it('can get documents from a view by its key', function (done) {
       var query = new Query(options);
       query.designDocument('all_docs').view('all_values').key(2).exec(function (error, result) {
         if (error) {
