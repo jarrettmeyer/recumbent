@@ -144,6 +144,4 @@ query.designDocument('employees').view('all').skip(100).limit(20).exec(callback)
 
 ## Features Coming "Soon"
 
-+ Add filter(s) to design document.
-+ Query by filter(s).
 + Add attachments to documents.
