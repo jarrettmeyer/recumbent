@@ -19,7 +19,8 @@
   },
   "keywords": [
     "couch",
-    "couchdb"
+    "couchdb",
+    "recumbent"
   ],
   "repository": {
     "type": "git",
