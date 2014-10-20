@@ -1,10 +1,19 @@
 {
   "bitwise": true,
+  "boss": true,
   "curly": true,
   "eqeqeq": true,
+  "expr": true,
+  "freeze": true,
+  "immed": true,
   "indent": 2,
+  "maxparams": 3,
   "newcap": true,
+  "nonew": true,
   "noarg": true,
   "plusplus": true,
-  "maxparams": 3
+  "predef": ["describe", "expect", "it", "module", "require"],
+  "quotmark": "single",
+  "undef": true,
+  "unused": true
 }

@@ -9,7 +9,7 @@
     "jasmine-node": "~1.14.3"
   },
   "scripts": {
-    "lint": "jshint --verbose ./lib/**/*.js ./spec/**/*.js ./package.json",
+    "lint": "jshint --verbose ./lib/**/*.js ./spec/**/*.js",
     "spec": "jasmine-node --color .",
     "test": "npm run lint && npm run spec"
   },

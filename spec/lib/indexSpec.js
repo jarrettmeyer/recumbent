@@ -1,6 +1,6 @@
 var recumbent = require('../../lib');
 
-describe("recumbent", function () {
+describe('recumbent', function () {
 
   it('has a Database constructor', function () {
     expect(recumbent.Database).toBeDefined();
