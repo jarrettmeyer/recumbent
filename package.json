@@ -1,6 +1,6 @@
 {
   "name": "recumbent",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Couch DB client for NodeJS",
   "dependencies": {
   },
@@ -9,7 +9,7 @@
     "jasmine-node": "~1.14.3"
   },
   "scripts": {
-    "lint": "jshint --verbose ./lib/**/*.js ./spec/**/*.js",
+    "lint": "jshint --verbose ./index.js ./lib/**/*.js ./spec/**/*.js",
     "spec": "jasmine-node --color .",
     "test": "npm run lint && npm run spec"
   },
