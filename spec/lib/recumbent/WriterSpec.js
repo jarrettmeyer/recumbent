@@ -72,6 +72,22 @@ describe('Writer', function () {
 
   });
 
+  describe('isUpdate', function () {
+
+    it('is false by default', function () {
+      expect(writer.isUpdate()).toBeFalsy();
+    });
+
+    it('is false when data does not have a _rev attribute', function () {
+      expect(writer.data({ id: '1' }).isUpdate()).toBeFalsy();
+    });
+
+    it('is true when data has a _rev attribute', function () {
+      expect(writer.data({ _rev: '1' }).isUpdate()).toBeTruthy();
+    });
+
+  });
+
   describe('update', function () {
 
     beforeEach(function (done) {
