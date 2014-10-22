@@ -107,7 +107,6 @@ describe('Writer', function () {
         if (error) {
           done(error);
         }
-        console.log(result);
         expect(result.id).toMatch('hello');
         expect(result.rev).toMatch(/^2\-/);
         done();
