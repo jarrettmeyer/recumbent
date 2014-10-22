@@ -79,7 +79,7 @@ describe('Writer', function () {
     });
 
     it('is false when data does not have a _rev attribute', function () {
-      expect(writer.data({ id: '1' }).isUpdate()).toBeFalsy();
+      expect(writer.data({ _id: '1' }).isUpdate()).toBeFalsy();
     });
 
     it('is true when data has a _rev attribute', function () {
@@ -107,6 +107,7 @@ describe('Writer', function () {
         if (error) {
           done(error);
         }
+        console.log(result);
         expect(result.id).toMatch('hello');
         expect(result.rev).toMatch(/^2\-/);
         done();

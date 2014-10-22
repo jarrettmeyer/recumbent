@@ -26,7 +26,7 @@ describe('Query', function () {
 
     it('can fetch a document by id', function (done) {
       var query = new Query(options);
-      query.id('my-test').exec(function (error, result) {
+      query.doc('my-test').exec(function (error, result) {
         if (error) {
           done(error);
         }
@@ -61,7 +61,7 @@ describe('Query', function () {
 
     it('can get documents from a view by its key', function (done) {
       var query = new Query(options);
-      query.designDocument('all_docs').view('all_values').key(2).exec(function (error, result) {
+      query.ddoc('all_docs').view('all_values').key(2).exec(function (error, result) {
         if (error) {
           console.error(error);
           done(error);
@@ -97,7 +97,7 @@ describe('Query', function () {
 
     it('can get documents from a view with skip and limit', function (done) {
       var query = new Query(options);
-      query.designDocument('all_docs').view('all_values').skip(2).limit(2).exec(function (error, result) {
+      query.ddoc('all_docs').view('all_values').skip(2).limit(2).exec(function (error, result) {
         if (error) {
           console.error(error);
           done(error);
@@ -134,7 +134,7 @@ describe('Query', function () {
 
     it('can get documents from a view by its startkey and endkey', function (done) {
       var query = new Query(options);
-      query.designDocument('all_docs').view('all_values').startkey(3).endkey(6).exec(function (error, result) {
+      query.ddoc('all_docs').view('all_values').startkey(3).endkey(6).exec(function (error, result) {
         if (error) {
           console.error(error);
           done(error);
@@ -171,7 +171,7 @@ describe('Query', function () {
 
     it('can get documents by view', function (done) {
       var query = new Query(options);
-      query.designDocument('all_docs').view('all_values').exec(function (error, result) {
+      query.ddoc('all_docs').view('all_values').exec(function (error, result) {
         if (error) {
           console.error(error);
           done(error);
@@ -204,7 +204,7 @@ describe('Query', function () {
       views: {
         all_ids: {
           map: function (doc) {
-            emit(doc._id, null);
+            emit(doc._docId, null);
           }.toString()
         },
         all_values: {

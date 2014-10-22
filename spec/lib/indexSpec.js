@@ -2,6 +2,11 @@ var recumbent = require('../../lib');
 
 describe('recumbent', function () {
 
+  it('has an Attachment constructor', function () {
+    expect(recumbent.Attachment).toBeDefined();
+    expect(typeof recumbent.Attachment).toEqual('function');
+  });
+
   it('has a Database constructor', function () {
     expect(recumbent.Database).toBeDefined();
     expect(typeof recumbent.Database).toEqual('function');
