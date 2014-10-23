@@ -21,17 +21,18 @@ describe('Attachment', function () {
     database.create(function (error, result) {
       expect(result.ok).toEqual(true);
       writer = new recumbent.Writer(options);
-      writer.data({ _id: docId, type: 'tester' }).exec(function (error, result) {
+      writer.data({ description: 'test adding an attachment to a document' }).exec(function (error, result) {
         if (error) {
           console.error(error);
           done(error);
         } else {
+          docId = result.id;
           expect(result.ok).toEqual(true);
           expect(result.id).toEqual(docId);
           expect(result.rev).toMatch(/^1\-/);
           var attachment = new recumbent.Attachment(options);
           expect(attachment).toBeDefined();
-          var content = fs.readFileSync('./README.md', { encoding: 'base64' });
+          var content = fs.readFileSync('./README.md', { encoding: 'utf8' });
           expect(typeof content).toEqual('string');
           attachment.doc(docId).name('README.md').rev(result.rev).contentType('text/plain').data(content).put();
           attachment.exec(function (error, result) {
@@ -49,31 +50,35 @@ describe('Attachment', function () {
     });
   });
 
-  //it('can get an attachment', function (done) {
-  //  var reader = new recumbent.Attachment(options);
-  //  reader.docId(docId).name('README.md').exec(function (error, result) {
-  //    if (error) {
-  //      done(error);
-  //    } else {
-  //      expect(result).toMatch('^# recumbent');
-  //      done();
-  //    }
-  //  });
-  //});
-
-  //function getDocument(content) {
-  //  return {
-  //    _id: docId,
-  //    message: 'Hello, World!',
-  //    timestamp: Date.now(),
-  //    _attachments: {
-  //      'README.md': {
-  //        'content_type': 'text\/plain',
-  //        'data': content
-  //      }
-  //    }
-  //  };
-  //}
+  it('can get an existing attachment', function (done) {
+    database.create(function (error, result) {
+      expect(result.ok).toEqual(true);
+      writer = new recumbent.Writer(options);
+      var doc = { _id: docId, description: 'test get attachment' };
+      writer.data(doc).exec(function (error, result) {
+        expect(result.ok).toEqual(true);
+        var revision = result.rev;
+        var att = new recumbent.Attachment(options);
+        var content = fs.readFileSync('./README.md', { encoding: 'utf8' });
+        expect(content.length > 0).toEqual(true);
+        att.doc(docId).name('README.md').rev(revision).contentType('text/plain').data(content).put();
+        att.exec(function (error, result) {
+          if (error) {
+            done(error);
+          } else {
+            expect(result.ok).toEqual(true);
+            expect(result.id).toEqual(docId);
+            var getAtt = new recumbent.Attachment(options);
+            getAtt.doc(docId).name('README.md');
+            getAtt.exec(function (error, result) {
+              expect(result).toMatch(/^# recumbent/);
+              done();
+            });
+          }
+        });
+      });
+    });
+  });
 
   function setOptions() {
     docId = '12345';
