@@ -1,6 +1,6 @@
 {
   "name": "recumbent",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Couch DB client for NodeJS",
   "dependencies": {
   },
