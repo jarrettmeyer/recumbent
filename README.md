@@ -16,11 +16,12 @@ $ npm install recumbent
 var recumbent = require('recumbent');
 var server = new recumbent.Server({ url: 'http://localhost: 5984', database: 'my_stuff' });
 server.getInfo(function (error, result) {
-  /* Put your code here. */
+  // result = { couchdb: "welcome", version: "1.6.1", ... }
 });
 ```
 
-In all classes, you may either pass a `Server` object or `url` and `database` attributes.
+In all classes, you may either pass a `Server` object or `url` and `database`
+attributes.
 
 ### Creating a new database
 
@@ -28,7 +29,7 @@ In all classes, you may either pass a `Server` object or `url` and `database` at
 var recumbent = require('recumbent');
 var database = new recumbent.Database({ url: 'http://localhost:5984', database: 'my_stuff' });
 database.create(function (error, result) {
-  /* Put your code here. Result = { ok: true } */
+  // result = { ok: true }
 });
 ```
 
@@ -38,7 +39,7 @@ database.create(function (error, result) {
 var recumbent = require('recumbent');
 var database = new recumbent.Database({ url: 'http://localhost:5984', database: 'my_stuff' });
 database.destroy(function (error, result) {
-  /* Put your code here. Result = { ok: true } */
+  // result = { ok: true }
 });
 ```
 
@@ -47,6 +48,7 @@ database.destroy(function (error, result) {
 To insert a document, create an instance of a `Writer`.
 
 ``` javascript
+var recumbent = require("recumbent");
 var writer = new recumbent.Writer({ server: server });
 var obj = {
   message: "Hello, World!"
@@ -62,9 +64,9 @@ writer.data(obj).exec(function (error, result) {
 
 ### Updating a document
 
-Updating a document is identical to inserting a document. The only difference is that
-updated documents must have `_rev` attribute. Use the `data()` function to set the
-data to be sent to the server.
+Updating a document is identical to inserting a document. The only difference
+is that updated documents must have a `_rev` attribute. Use the `data()` function
+to set the data to be sent to the server.
 
 ``` javascript
 var writer = new recumbent.Writer({ server: server });
@@ -82,14 +84,17 @@ writer.data(obj).exec(function (error, result) {
 });
 ```
 
+Attempting to write a document with a duplicate ID but without giving a revision
+will result in an error.
+
 ### Querying for a document by ID
 
-To query for documents, create a new instance of the `Query` object. Use the `id()`
-function to set the ID to fetch.
+To query for documents, create a new instance of the `Query` object. Use the `doc()`
+function to set the document ID to fetch.
 
 ``` javascript
 var query = new recumbent.Query({ server: server });
-query.id('04bb33dc698297b4806062feae00cb93').exec(function (error, result) {
+query.doc('04bb33dc698297b4806062feae00cb93').exec(function (error, result) {
   if (error) {
     throw error;
   }
@@ -123,25 +128,78 @@ writer.data(designDocument).exec(function (error, result) {
 });
 ```
 
-Once created, you may query a view with `key`, `startkey`, `endkey`, `skip`, and
+Once the document has been created, you can query with the `ddoc()` and `view()`
+functions. Queries may be augmented with  `key`, `startkey`, `endkey`, `skip`, and
 `limit` options.
 
 ``` javascript
 var query = new recumbent.Query(options);
 
 // query a view
-query.designDocument('employees').view('all').exec(callback);
+query.ddoc('employees').view('all').exec(callback);
 
 // query a view by key
-query.designDocument('employees').view('all').key('123-45-6789').exec(callback);
+query.ddoc('employees').view('all').key('123-45-6789').exec(callback);
 
 // query a view by startkey and endkey
-query.designDocument('employees').view('all').startkey('200-00-0000').endkey('299-99-9999').exec(callback);
+query.ddoc('employees').view('all').startkey('200-00-0000').endkey('299-99-9999').exec(callback);
 
 // query a view by skip and limit
-query.designDocument('employees').view('all').skip(100).limit(20).exec(callback);
+query.ddoc('employees').view('all').skip(100).limit(20).exec(callback);
 ```
 
-## Features Coming "Soon"
+### Adding an attachment to a document
 
-+ Add attachments to documents.
+Attachments can be added to existing documents in two ways.
+
+First, add the `_attachments` attribute to an existing document and write the document
+as described above.
+
+``` javascript
+var recumbent = require("recumbent");
+
+var docWithAttachment = {
+  description: "This document has an attachment.",
+  _attachments: {
+    "test.txt": {
+      content_type: "text/plain",
+      data: "VGhpcyBpcyBteSB0ZXh0IGRvY3VtZW50"
+    }
+  }
+};
+
+var writer = new recumbent.Writer(options);
+writer.data(docWithAttachment).exec(callback);
+```
+
+As with other updates, if the document is existing, then it must have a `_rev` attribute.
+
+Second, use the `Attachment` object to put a new attachment on an existing document.
+
+``` javascript
+var recumbent = require("recumbent");
+
+var att = new recumbent.Attachment(options);
+att.doc(someDocId).name(someAttachmentName).rev(revision);
+att.contentType("text/plain").content(attachmentContent).put();
+att.exec(callback);
+```
+
+### Getting an attachment
+
+``` javascript
+var recumbent = require("recumbent");
+
+var att = new recumbent.Attachment(options);
+att.doc(someDocId).name(someAttachmentName).exec(function (error, result) {
+  // result = your document content
+});
+```
+
+## Development
+
+### Running Tests
+
+```
+$ npm test
+```
