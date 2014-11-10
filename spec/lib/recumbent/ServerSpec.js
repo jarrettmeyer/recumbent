@@ -1,14 +1,24 @@
 var Server = require('../../../lib/recumbent/Server');
 
-describe('Server', function () {
+describe('class: recumbent.Server', function () {
 
-  var server;
+  var promise, server;
 
   it('can get server info', function (done) {
     server = new Server();
     server.getInfo(function (error, result) {
       expect(result.couchdb).toEqual('Welcome');
       done(error);
+    });
+  });
+
+  it('can get server info with a promise', function (done) {
+    server = new Server();
+    promise = server.getInfo();
+    promise.then(function (result) {
+      expect(result.couchdb).toEqual('Welcome');
+    }).done(function () {
+      done();
     });
   });
 

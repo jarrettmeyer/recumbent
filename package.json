@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Couch DB client for NodeJS",
   "dependencies": {
+    "q": "~1.0.1"
   },
   "devDependencies": {
     "jshint": "~2.5.6",
