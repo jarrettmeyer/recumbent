@@ -72,6 +72,18 @@ describe('Writer', function () {
 
   });
 
+  describe('insert, returning a promise', function () {
+    it('can insert a new record', function (done) {
+      var promise = writer.data(doc).exec();
+      promise.then(function (result) {
+        expect(result.id).toEqual('hello');
+        expect(result.rev).toMatch(/^1\-/);
+      }).done(function () {
+        done();
+      });
+    });
+  });
+
   describe('isUpdate', function () {
 
     it('is false by default', function () {
